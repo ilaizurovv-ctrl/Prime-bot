@@ -5,7 +5,7 @@ from pydantic import field_validator
 class Settings(BaseSettings):
     bot_token: str
     database_url: str
-    webhook_secret: str
+    webhook_secret: str | None = None
     bot_username: str = "PrimeGarantBft_bot"
     bot_display_name: str = "Prime Bot"
     ton_network: str = "testnet"
