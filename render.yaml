@@ -1,0 +1,38 @@
+services:
+  - type: worker
+    name: prime-bot-worker
+    runtime: docker
+    region: frankfurt
+    plan: starter
+    repo: https://github.com/ilaizurovv-ctrl/Prime-bot
+    branch: main
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    autoDeployTrigger: commit
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: prime-bot-db
+          property: connectionString
+      - key: BOT_USERNAME
+        value: PrimeGarantBft_bot
+      - key: BOT_DISPLAY_NAME
+        value: Prime Bot
+      - key: TON_NETWORK
+        value: testnet
+      - key: ESCROW_FEE_BPS
+        value: "150"
+      - key: ADMIN_IDS
+        value: "8717928428"
+      - key: MANAGER_USERNAME
+        value: korhoul
+
+databases:
+  - name: prime-bot-db
+    databaseName: prime_bot
+    plan: basic-256mb
+    diskSizeGB: 1
+    region: frankfurt
+    postgresMajorVersion: "18"
